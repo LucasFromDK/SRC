@@ -17,7 +17,7 @@ function setup() {
   skridtSlider = createSlider(0.0001, 0.0005, 0.0001, 0.0001);
   skridtSlider.position(startButton.x + 130, startButton.y);
   createCanvas(windowWidth, windowHeight);
-  frameRate(60);
+  frameRate(30);
   return dy;
 }
 
@@ -32,7 +32,7 @@ function draw() {
 
 function UI() {
   fill("black")
-  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s" + "  |  " + "Antal Punkter: " + points.length, 100, 13);
+  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s  |  " + "Distance Tilbage: " + r + " km  |  " + "Antal Punkter: " + points.length, 100, 13);
   text("Skridtlængde: ", skridtSlider.x - 75, startButton.y + 14);
   text("Skridtlængde er: " + skridtSlider.value(), skridtSlider.x + 140, startButton.y + 14);
 }
@@ -56,13 +56,13 @@ function eulerMethod() {
   x = t;
   h = skridtSlider.value();
 
-  if (r >= rs) {
+  if (r >= 25) {
     t = t + h;
     const ychange = -c * (1 - rs / y) * sqrt(rs / y);
     r += ychange * h;
 
     //Send punkter til opbevaring i arrayet points
-    points.push({ x: t * 30000, y: y });
+    points.push({ x: t * window.innerWidth*45, y: y });
     dy = ychange;
     console.log("Distance: " + Math.round(r) + " km", "\nSpeed: " + Math.round(ychange) + " km/s", "\nTid gået: " + t + " s", "\nAntal Punkter: " + points.length);
     return t, h, y, dy;
@@ -74,7 +74,7 @@ function drawPoints() {
   for (let i = 0; i < points.length; i++) {
     strokeWeight(2);
     let punkt = points[i];
-    point(punkt.x, map(punkt.y, 0, 1000, height, 0));
+    point(punkt.x, map(punkt.y, 0, 1000, height+60, 0));
   }
 
   // Forbinder punkter med en linje
@@ -83,7 +83,7 @@ function drawPoints() {
   beginShape();
   for (let i = 0; i < points.length; i++) {
     let punkt = points[i];
-    vertex(punkt.x, map(punkt.y, 0, 1000, height, 0));
+    vertex(punkt.x, map(punkt.y, 0, 1000, height+60, 0));
   }
   endShape();
 }
