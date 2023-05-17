@@ -1,5 +1,5 @@
 let isLive = false;
-let points = [{x: 0, y: 1000}]; //Opbevaring af punkter
+let points = [{x: 0, y: window.innerHeight + 60}];
 let dy;
 let h;
 const c = 299792;
@@ -14,10 +14,10 @@ function setup() {
   dy = -c * (1 - rs / r) * sqrt(rs / r);
   startButton = createButton("Start").mousePressed(startAnimation);
   startButton.position(windowWidth-400, windowHeight - startButton.height);
-  skridtSlider = createSlider(0.001, 0.005, 0.001, 0.001);
+  skridtSlider = createSlider(0.0001, 0.0005, 0.0001, 0.0001);
   skridtSlider.position(startButton.x + 130, startButton.y);
   createCanvas(windowWidth, windowHeight);
-  frameRate(5);
+  frameRate(60);
   return dy;
 }
 
@@ -31,12 +31,8 @@ function draw() {
 }
 
 function UI() {
-  rectMode(LEFT)
-  fill("green")
-  rect(0, 0, windowWidth, 20)
-  fill("white")
-  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s" + "  |  " + "Antal Punkter: " + points.length, 5, 13);
   fill("black")
+  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s" + "  |  " + "Antal Punkter: " + points.length, 100, 13);
   text("Skridtlængde: ", skridtSlider.x - 75, startButton.y + 14);
   text("Skridtlængde er: " + skridtSlider.value(), skridtSlider.x + 140, startButton.y + 14);
 }
@@ -60,7 +56,7 @@ function eulerMethod() {
   x = t;
   h = skridtSlider.value();
 
-  if (r > 0) {
+  if (r >= rs) {
     t = t + h;
     const ychange = -c * (1 - rs / y) * sqrt(rs / y);
     r += ychange * h;
@@ -74,20 +70,20 @@ function eulerMethod() {
 }
 
 function drawPoints() {
-  //Tegner Punkterne
+  // Tegner Punkterne
   for (let i = 0; i < points.length; i++) {
-    strokeWeight(10)
+    strokeWeight(2);
     let punkt = points[i];
-    point(punkt.x, punkt.y);
+    point(punkt.x, map(punkt.y, 0, 1000, height, 0));
   }
 
-  //Forbinder punkter med en linje
+  // Forbinder punkter med en linje
   strokeWeight(1);
   noFill();
   beginShape();
   for (let i = 0; i < points.length; i++) {
     let punkt = points[i];
-    vertex(punkt.x, punkt.y);
+    vertex(punkt.x, map(punkt.y, 0, 1000, height, 0));
   }
   endShape();
 }
