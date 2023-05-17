@@ -1,5 +1,5 @@
 let isLive = false;
-let points = []; //Opbevaring af punkter
+let points = [{x: 0, y: 1000}]; //Opbevaring af punkter
 let dy;
 let h;
 const c = 299792;
@@ -17,7 +17,7 @@ function setup() {
   skridtSlider = createSlider(0.001, 0.005, 0.001, 0.001);
   skridtSlider.position(startButton.x + 130, startButton.y);
   createCanvas(windowWidth, windowHeight);
-  frameRate(2);
+  frameRate(5);
   return dy;
 }
 
@@ -66,7 +66,7 @@ function eulerMethod() {
     r += ychange * h;
 
     //Send punkter til opbevaring i arrayet points
-    points.push({ x: t * 20000, y: y });
+    points.push({ x: t * 30000, y: y });
     dy = ychange;
     console.log("Distance: " + Math.round(r) + " km", "\nSpeed: " + Math.round(ychange) + " km/s", "\nTid gået: " + t + " s", "\nAntal Punkter: " + points.length);
     return t, h, y, dy;
