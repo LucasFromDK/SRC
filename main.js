@@ -31,8 +31,9 @@ function draw() {
 }
 
 function UI() {
+  noStroke()
   fill("black")
-  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s  |  " + "Distance Tilbage: " + r + " km  |  " + "Antal Punkter: " + points.length, 100, 13);
+  text("Hastigheds ændring: " + Math.round(dy) + " km/s  |  " + "Tid gået: " + t + " s  |  " + "Distance Tilbage: " + Math.round(r) + " km  |  " + "Antal Punkter: " + points.length, 5, windowHeight - 5);
   text("Skridtlængde: ", skridtSlider.x - 75, startButton.y + 14);
   text("Skridtlængde er: " + skridtSlider.value(), skridtSlider.x + 140, startButton.y + 14);
 }
@@ -79,6 +80,7 @@ function drawPoints() {
 
   // Forbinder punkter med en linje
   strokeWeight(1);
+  stroke("blue")
   noFill();
   beginShape();
   for (let i = 0; i < points.length; i++) {
