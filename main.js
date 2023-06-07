@@ -31,7 +31,7 @@ function setup() {
 function draw() {
   background(220);
   UI()
-  drawPoints(); //Tegner Punkterne
+  observerView()
   astronautView();
   if (isLive == true) {
     eulerMethod();
@@ -73,12 +73,12 @@ function eulerMethod() {
   //Begrænset til 153 for at fikse en fejl med at grafen kan fortsætte til en værdi lavere ens rs.
   if (r >= rs && points1.length < 153) {
     t = t + h;
-    const ychange = -c * (1 - rs / y) * sqrt(rs / y); //Person der kigger på formel
-    const astro = -c * sqrt(rs / y2); //Astronaut formel
+    const ychange = -c * (1 - rs / y) * sqrt(rs / y); //Formel for hvad der "ses" af en observatør.
+    const astro = -c * sqrt(rs / y2); //Formel for hvordan det opleves af astronauten selv.
     r += ychange * h;
     r2 += astro * h;
 
-    //Send punkter til opbevaring i arrayet points
+    //Sender punkter til opbevaring i deres array's, de bruges til at tegne graferne.
     points1.push({ x: t * window.innerWidth*45, y: y });
     points2.push({ x: t * window.innerWidth*45, y: y2 });
     dy1 = ychange;
@@ -87,7 +87,7 @@ function eulerMethod() {
   }
 }
 
-function drawPoints() {
+function observerView() {
   // Tegner Punkterne for personen der kigger på.
   for (let i = 0; i < points1.length; i++) {
     strokeWeight(2);
